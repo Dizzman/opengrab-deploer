@@ -1,0 +1,8 @@
+[submodule "opengrab-api-server"]
+	path = opengrab-api-server
+	url = git@188.187.124.11:opengrab/opengrab-api-server.git
+        branch = master
+[submodule "opengrab-tvxml-downloader"]
+	path = opengrab-tvxml-downloader
+	url = git@188.187.124.11:opengrab/opengrab-tvxml-downloader.git
+	branch = master
