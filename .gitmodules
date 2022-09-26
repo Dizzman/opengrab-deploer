@@ -6,3 +6,6 @@
 	path = opengrab-tvxml-downloader
 	url = git@188.187.124.11:opengrab/opengrab-tvxml-downloader.git
 	branch = master
+[submodule "opengrab-sender"]
+	path = opengrab-sender
+	url = git@188.187.124.11:/opengrab/opengrab-sender.git
