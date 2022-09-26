@@ -70,8 +70,8 @@ services:
     env_file: ./opengrab-tvxml-downloader/config/local.env
     environment:      
          STORAGE_MINIO_URL: minio
-         BACKEND_URL:  	    http://srv_rest_api
-         BACKEND_PORT:      8001
+         BACKEND_URL: http://srv_rest_api
+         BACKEND_PORT: 8001
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -96,8 +96,8 @@ services:
     env_file: ./opengrab-api-server/config/local.env
     environment:      
          STORAGE_MINIO_URL: minio
-         BACKEND_PORT:      8001
-         BACKEND_URL:       0.0.0.0
+         BACKEND_PORT: 8001
+         BACKEND_URL: 0.0.0.0
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
