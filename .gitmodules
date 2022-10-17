@@ -9,3 +9,6 @@
 [submodule "opengrab-sender"]
 	path = opengrab-sender
 	url = git@188.187.124.11:/opengrab/opengrab-sender.git
+[submodule "opengrab-admin-telegram-bot"]
+	path = opengrab-admin-telegram-bot
+	url = git@188.187.124.11:opengrab/opengrab-admin-telegram-bot.git
