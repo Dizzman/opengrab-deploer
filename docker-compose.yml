@@ -1,61 +1,41 @@
 version: '3.7'
 networks:
   opengrab-net:
-    driver: bridge
-
+   driver: bridge
 services:
 
+# manticore:
+#    container_name: manticore
+#    image: manticoresearch/manticore
+#    #network_mode: host
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#
+#    environment:
+#      - EXTRA=1
+#      - CREATE_PLAIN_TABLES=1
+#      #- CREATE_PLAIN_TABLES=sakila_film
+#      #- CREATE_PLAIN_TABLES=sakila_film2:0 11 * * *
+#      #- CREATE_PLAIN_TABLES=sakila_film2:* * * * *
+#
+#    restart: always
+#    ports:
+#      - 9306:9306
+#      - 9308:9308
+#    ulimits:
+#      nproc: 65535
+#      nofile:
+#         soft: 65535
+#         hard: 65535
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - ./data:/var/lib/manticore
+#      - ./manticore.conf:/etc/manticoresearch/manticore.conf # uncomment if you use a custom config
+#    networks:
+#      - opengrab-net
 
-
-# minio:
-#   image: minio/minio:latest
-#   command: server --console-address ":9001" /data/
-#   restart: always
-#   container_name: og-minio
-#   ports:
-#     - "9000:9000"
-#     - "9001:9001"
-#   environment:
-#     MINIO_ROOT_USER: opengrab
-#     MINIO_ROOT_PASSWORD: minio123
-#   volumes:
-#     - minio-storage:/data
-#   healthcheck:
-#     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-#     interval: 30s
-#     timeout: 20s
-#     retries: 3
-
-#   networks:
-#    - opengrab-net
-
- tvxml-downloader:
-    image: my_images/opengrab-tvxml-downloader:latest
-    container_name: og-tvxml-downloader
-    restart: always
-    build:
-      context: opengrab-tvxml-downloader
-      dockerfile: docker/Dockerfile
-
-    env_file: ./opengrab-tvxml-downloader/config/local.env
-    environment:      
-         STORAGE_MINIO_URL: minio
-         BACKEND_URL: http://srv_rest_api
-         BACKEND_PORT: 8081
-    volumes:
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
-    depends_on:
-#       minio:
-#          condition: service_healthy
-       srv_rest_api:
-          condition: service_started
-#       srv_sender:
-#         condition: service_started
-    networks:
-      - opengrab-net
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
  srv_rest_api:
     image: my_images/opengrab-api-server:latest
     container_name: og-api-server
@@ -70,60 +50,21 @@ services:
       STORAGE_MINIO_URL: minio
       BACKEND_PORT: 8081
       BACKEND_URL: 0.0.0.0
+      #MANTICORE_ADDR: manticore
+      MANTICORE_ADDR: host.docker.internal
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
-#      interval: 30s
-#      timeout: 24h
-#      retries: 3
-
-#    depends_on:
-#      minio:
-#          condition: service_healthy
-
-
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
     networks:
       - opengrab-net
+
     ports:
       - "8081:8081"
-# srv_admin_telegram_bot:
-#   image: my_images/opengrab-admin-telegram-bot:latest
-#   container_name: og-telegram_admin
-#   restart: always
-#   build:
-#     context: opengrab-admin-telegram-bot
-#     dockerfile: docker/Dockerfile
 
-#   volumes:
-#      - "/etc/timezone:/etc/timezone:ro"
-#      - "/etc/localtime:/etc/localtime:ro"
-#   env_file: ./opengrab-admin-telegram-bot/config/local.env
-#   depends_on:
-#     minio:
-#       condition: service_healthy
-#     srv_rest_api:
-#       condition: service_started
+     # - "9309:9309"
+      #- "9308:9308"
+      #- "9306:9306"
 
-#   networks:
-#     - opengrab-net
-
-# srv_sender:
-#   image: my_images/opengrab-sender:latest
-#   container_name: og-sender
-#   restart: always
-#   build:
-#     context: opengrab-sender
-#     dockerfile: docker/Dockerfile
-#   volumes:
-#     - "/etc/timezone:/etc/timezone:ro"
-#     - "/etc/localtime:/etc/localtime:ro"
-#   networks:
-#     - opengrab-net
-#   extra_hosts:
-#     - "host.docker.internal:host-gateway"
-#volumes:
-# minio-storage:
